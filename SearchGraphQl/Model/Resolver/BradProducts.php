@@ -26,6 +26,25 @@ use Magento\Store\Model\StoreManagerInterface;
 class BradProducts implements ResolverInterface
 {
     /**
+     * Attributes needed by Load 1 (BradProducts collection).
+     * Load 2 (ProductDataLoader) handles searchable/filterable attributes separately.
+     */
+    private const COLLECTION_ATTRIBUTES = [
+        'name',
+        'sku',
+        'url_key',
+        'image',
+        'short_description',
+        'description',
+        'price',
+        'special_price',
+        'special_from_date',
+        'special_to_date',
+        'tax_class_id',
+        'mm_popularity',
+    ];
+
+    /**
      * @var ApiKeyValidator
      */
     private ApiKeyValidator $apiKeyValidator;
@@ -78,7 +97,8 @@ class BradProducts implements ResolverInterface
         }
 
         $collection = $this->collectionFactory->create();
-        $collection->addAttributeToSelect('*');
+
+        $collection->addAttributeToSelect(self::COLLECTION_ATTRIBUTES);
         $collection->setStoreId($storeId);
         $collection->addStoreFilter($storeId);
 
